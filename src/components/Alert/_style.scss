@@ -1,0 +1,37 @@
+.alert {
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $white;
+  display: inline-block;
+  padding: $btn-padding-y-lg $btn-padding-x-lg;
+  min-width: 30rem;
+  transform: translate(-50%,-50%);
+  box-shadow: $btn-box-shadow;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  .alert-closeIcon {
+    position: absolute;
+    right: 1rem;
+    top: $btn-padding-y-lg;
+  }
+}
+
+.alert-default {
+  @include alert-style($white ,$black)
+}
+
+
+.alert-success {
+  @include alert-style($primary,$white)
+}
+
+.alert-danger {
+  @include alert-style($danger,$white)
+}
+
+.alert-warning {
+  @include alert-style($warning,$white)
+}

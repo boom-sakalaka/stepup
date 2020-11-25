@@ -1,7 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Button,{ButtonType,ButtonSize} from './components/Button/button'
+import Alert ,{AlertType} from './components/Alert/alert'
 
 function App() {
+  const [isShowAlert,setIsShowAlert] = useState(true)
   return (
     <div className="App">
       <header className="App-header">
@@ -19,7 +21,16 @@ function App() {
         <Button btnType={ButtonType.Primary} size={ButtonSize.large}>Hello Hello</Button>
         <Button btnType={ButtonType.Danger} size={ButtonSize.large}>Hello</Button>
         <br/>
-       
+        <Alert 
+          content ='是否确认删除!'
+          title ='标题'
+          alertType={AlertType.Success}
+          showClose= {true}
+          isShowAlert = {isShowAlert}
+          onClick= {() => {
+            setIsShowAlert(false)
+          }}
+        />
       </header>
     </div>
   );
