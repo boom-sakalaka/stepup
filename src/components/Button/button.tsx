@@ -13,7 +13,7 @@ export enum ButtonType {
   Link = 'link',
 }
 
-interface BaseButtonProps {
+export interface BaseButtonProps {
   className?: string;
   disabled?: boolean;
   size?: ButtonSize;
