@@ -3,25 +3,41 @@ import Button,{ButtonType,ButtonSize} from './components/Button/button'
 import Alert ,{AlertType} from './components/Alert/alert'
 import Menu from './components/Menu/menu'
 import MenuItem from './components/Menu/menuItem'
+import SubMenu from './components/Menu/subMenu'
 
 function App() {
   const [isShowAlert,setIsShowAlert] = useState(true)
   return (
     <div className="App">
       <header className="App-header">
-        <Menu defaultIndex={0} onSelect={(index) =>{} } mode='vertical'>
-          <MenuItem index={0}>
+        <Menu defaultIndex={0} onSelect={(index) =>{}}>
+          <MenuItem>
             cool link
           </MenuItem>
-          <MenuItem index={1} disabled>
+          <MenuItem disabled>
             cool link 2
           </MenuItem>
-          <MenuItem index={2}>
+          <MenuItem>
             cool link 3
           </MenuItem>
+          <MenuItem>
+            cool link 4
+          </MenuItem>
+          <SubMenu title="dropDown">
+              <MenuItem>
+                cool link
+              </MenuItem>
+              <MenuItem disabled>
+                cool link 2
+              </MenuItem>
+              <MenuItem>
+                cool link 3
+              </MenuItem>
+              <MenuItem>
+                cool link 4
+              </MenuItem>
+          </SubMenu>
         </Menu>
-
-
 
         <Button size={ButtonSize.Small} autoFocus className="my-test">Hello</Button>
         <Button size={ButtonSize.Small} btnType={ButtonType.Primary} onClick={(e) => {e.preventDefault(); alert(111)}}>Hello</Button>
