@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Tabs defaultIndex={0}>
+        <Tabs defaultIndex={'0'}>
           <TabItem  label={'one'}>
             tab one
           </TabItem>
