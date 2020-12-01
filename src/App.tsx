@@ -4,12 +4,25 @@ import Alert ,{AlertType} from './components/Alert/alert'
 import Menu from './components/Menu/menu'
 import MenuItem from './components/Menu/menuItem'
 import SubMenu from './components/Menu/subMenu'
+import Tabs from './components/Tabs/tabs'
+import TabItem  from './components/Tabs/tabItem'
 
 function App() {
   const [isShowAlert,setIsShowAlert] = useState(true)
   return (
     <div className="App">
       <header className="App-header">
+        <Tabs defaultIndex={0}>
+          <TabItem  label={'one'}>
+            tab one
+          </TabItem>
+          <TabItem  label={'two'}>
+            tab two
+          </TabItem>
+        </Tabs>
+
+
+
         <Menu defaultIndex='0' onSelect={(index) =>{alert(index)}} mode="vertical" defaultOpenSubMenus={['4']}>
           <MenuItem>
             cool link
