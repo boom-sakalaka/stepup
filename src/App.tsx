@@ -1,5 +1,7 @@
 import React,{useState} from 'react';
 import Button,{ButtonType,ButtonSize} from './components/Button/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 import Alert ,{AlertType} from './components/Alert/alert'
 import Menu from './components/Menu/menu'
 import MenuItem from './components/Menu/menuItem'
@@ -12,6 +14,9 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+
+      <FontAwesomeIcon icon={faCoffee} size='lg' />
+
         <Tabs defaultIndex={'0'}>
           <TabItem  label={'one'}>
             tab one
