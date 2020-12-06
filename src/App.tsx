@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <header className="App-header">
 
-      <Icon icon="arrow-down" theme='danger' size='10x'/>
+      <Icon icon="arrow-down" theme='primary' size='10x'/>
 
         <Tabs defaultIndex={'0'}>
           <TabItem  label={'one'}>
@@ -31,7 +31,7 @@ function App() {
 
 
 
-        <Menu defaultIndex='0' onSelect={(index) =>{alert(index)}} mode="vertical" defaultOpenSubMenus={['4']}>
+        <Menu defaultIndex='0' onSelect={(index) =>{alert(index)}} mode='horizontal' defaultOpenSubMenus={['4']}>
           <MenuItem>
             cool link
           </MenuItem>
