@@ -9,6 +9,7 @@ import SubMenu from './components/Menu/subMenu'
 import Tabs from './components/Tabs/tabs'
 import TabItem  from './components/Tabs/tabItem'
 import Icon from './components/Icon/icon'
+import Input from './components/Input/input'
 
 library.add(fas)
 
@@ -17,6 +18,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+
+      <Input size='sm' style={{width: 500}}  prepend="https://" append=".com"/>
 
       <Icon icon="arrow-down" theme='primary' size='10x'/>
 
