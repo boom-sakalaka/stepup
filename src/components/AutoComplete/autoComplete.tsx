@@ -1,5 +1,7 @@
-import React, { FC, useState, ChangeEvent, ReactElement } from 'react'
+import React, { FC, useState, ChangeEvent, ReactElement, useEffect } from 'react'
+import useDebounce from '../../hooks/useDebounce'
 import Input ,{ InputProps } from '../Input/input'
+import Icon from '../Icon/icon'
 
 interface DataSourceObject {
   value: string;
@@ -7,7 +9,7 @@ interface DataSourceObject {
 
 export type DataSourceType <T = {}> = T & DataSourceObject
 export interface AutoCompleteProps extends InputProps {
-  fetchSuggestions: (str:string) => DataSourceType[];
+  fetchSuggestions: (str:string) => DataSourceType[] | Promise<DataSourceType[]>;
   onSelct?: (item:DataSourceType) => void;
   renderOption?: (item: DataSourceType) => ReactElement;
 }
@@ -20,18 +22,34 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     renderOption,
     ...restProps
   } = props
-  const [inputValue, setInputValue] = useState(value)
+  const [inputValue, setInputValue] = useState(value as string)
   const [sugestions,setSugestions] = useState<DataSourceType[]>([])
-  console.log(sugestions)
+  const [loading,setLoading] = useState(false)
+  const debouncedValued = useDebounce(inputValue, 500)
+  useEffect(() => {
+    if(debouncedValued){
+      const results = fetchSuggestions(debouncedValued)
+      if(results instanceof Promise){
+          results.then(data => {
+            setLoading(false)
+            setSugestions(data)
+          }).catch(e => {
+            setLoading(false)
+            setSugestions([])
+          })
+      }else{
+        setLoading(false)
+        setSugestions(results)
+      }
+    }else{
+      setLoading(false)
+      setSugestions([])
+    }
+  },[debouncedValued,fetchSuggestions])
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim()
     setInputValue(value)
-    if(value){
-      const results = fetchSuggestions(value)
-      setSugestions(results)
-    }else{
-      setSugestions([])
-    }
+    setLoading(true)
   }
   const handleSelect = (item :DataSourceType) => {
     setInputValue(item.value)
@@ -66,6 +84,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
           onChange={handleChange}
           {...restProps}
         />
+        { loading && (<ul><Icon icon="spinner" spin /></ul>) }
         {
           (sugestions.length > 0 && generateDropdown())
         }
