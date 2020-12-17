@@ -1,4 +1,4 @@
-import React, { FC, useState, ChangeEvent, ReactElement, useEffect,KeyboardEvent } from 'react'
+import React, { FC, useState, ChangeEvent, ReactElement, useEffect,KeyboardEvent, useRef } from 'react'
 import classNames from 'classnames'
 import useDebounce from '../../hooks/useDebounce'
 import Input ,{ InputProps } from '../Input/input'
@@ -27,9 +27,10 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [sugestions,setSugestions] = useState<DataSourceType[]>([])
   const [loading,setLoading] = useState(false)
   const [highlightIndex, setHighlightIndex] = useState(-1)
+  const isSeachCtr = useRef(false)
   const debouncedValued = useDebounce(inputValue, 500)
   useEffect(() => {
-    if(debouncedValued){
+    if(debouncedValued && isSeachCtr.current){
       const results = fetchSuggestions(debouncedValued)
       if(results instanceof Promise){
           results.then(data => {
@@ -80,6 +81,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     const value = e.target.value.trim()
     setInputValue(value)
     setLoading(true)
+    isSeachCtr.current = true
   }
   const handleSelect = (item :DataSourceType) => {
     setInputValue(item.value)
@@ -87,6 +89,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
     if(onSelct){
       onSelct(item)
     }
+    isSeachCtr.current = false
   }
 
   const renderTemplate = (item: DataSourceType) => {
