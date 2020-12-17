@@ -1,4 +1,5 @@
 import React, { FC, useState, ChangeEvent, ReactElement, useEffect,KeyboardEvent, useRef } from 'react'
+import useClickOutside from '../../hooks/useClickOutside'
 import classNames from 'classnames'
 import useDebounce from '../../hooks/useDebounce'
 import Input ,{ InputProps } from '../Input/input'
@@ -28,6 +29,8 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   const [loading,setLoading] = useState(false)
   const [highlightIndex, setHighlightIndex] = useState(-1)
   const isSeachCtr = useRef(false)
+  const componentRef = useRef<HTMLDivElement>(null)
+  useClickOutside(componentRef, () => { setSugestions([])})
   const debouncedValued = useDebounce(inputValue, 500)
   useEffect(() => {
     if(debouncedValued && isSeachCtr.current){
@@ -114,7 +117,7 @@ export const AutoComplete: FC<AutoCompleteProps> = (props) => {
   }
 
   return (
-    <div className="stepup-auto-complete">
+    <div className="stepup-auto-complete" ref={componentRef}>
         <Input 
           value={inputValue}
           onChange={handleChange}
