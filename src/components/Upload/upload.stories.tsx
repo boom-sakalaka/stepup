@@ -9,17 +9,17 @@ import Upload from './upload'
 //   { uid: '122', size: 1234, name: 'xyz.md', status: 'success', percent: 30 },
 //   { uid: '121', size: 1234, name: 'eyiha.md', status: 'error', percent: 30 }
 // ]
-// const checkFileSize = (file: File) => {
-//   if (Math.round(file.size / 1024) > 50) {
-//     alert('file too big')
-//     return false;
-//   }
-//   return true;
-// }
-// const filePromise = (file: File) => {
-//   const newFile = new File([file], 'new_name.docx', {type: file.type})
-//   return Promise.resolve(newFile)
-// }
+const checkFileSize = (file: File) => {
+  if (Math.round(file.size / 1024) > 50) {
+    alert('file too big')
+    return false;
+  }
+  return true;
+}
+const filePromise = (file: File) => {
+  const newFile = new File([file], 'new_name.docx', {type: file.type})
+  return Promise.resolve(newFile)
+}
 const SimpleUpload = () => {
   return (
     <Upload
@@ -27,6 +27,8 @@ const SimpleUpload = () => {
       onProgress={action('pogress')}
       onSuccess={action('success')}
       onError={action('error')}
+      onchange={action('changed')}
+      beforeUpload={filePromise}
     >
     </Upload>
   )
