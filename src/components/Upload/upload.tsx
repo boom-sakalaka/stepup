@@ -1,8 +1,7 @@
 import React, { ChangeEvent, FC, useRef, useState } from 'react'
 import axios from 'axios'
-import Button,{ButtonType} from '../Button/button'
 import UploadList from './uploadList'
-
+import Drag from './dragger'
 export type UploadFileStatus = 'ready' | 'uploading' | 'success' | 'error'
 
 export interface UploadFile {
@@ -31,6 +30,7 @@ export interface UploadProps {
   withCredentials?: boolean;
   accept?: string,
   multiple?: boolean,
+  drag?: boolean;
 }
 
 const Upload: FC<UploadProps> = (props) => {
@@ -48,7 +48,9 @@ const Upload: FC<UploadProps> = (props) => {
     header,
     withCredentials,
     accept,
+    children,
     multiple,
+    drag,
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList ||[])
@@ -162,19 +164,25 @@ const Upload: FC<UploadProps> = (props) => {
   }
   return (
     <div className="stepup-upload-component">
-      <Button 
-        btnType={ButtonType.Primary}
-        onClick={handleClick}
-      >Upload File</Button>
-      <input 
-        ref={fileInput}
-        type="file" 
-        className="stepup-file-input" 
-        onChange={handleFileChange}
-        style={{display: 'none'}}
-        accept={accept}
-        multiple={multiple}
-        />
+     <div className="stepup-upload-input"
+          style={{display: 'inline-block'}}
+          onClick={handleClick}>
+           {
+             drag ? <Drag onFile={(files) => {uploadFiles(files)}}>
+               {children}
+             </Drag>
+             : {children}
+           }
+        <input 
+          ref={fileInput}
+          type="file" 
+          className="stepup-file-input" 
+          onChange={handleFileChange}
+          style={{display: 'none'}}
+          accept={accept}
+          multiple={multiple}
+          />
+          </div>
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   )

@@ -2,6 +2,7 @@ import React  from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import Upload from './upload'
+import Icon from '../Icon/icon'
 //import Button from '../Button/button'
 // import Icon from '../Icon/icon'
 // const defaultFileList: UploadFile[] = [
@@ -36,7 +37,11 @@ const SimpleUpload = () => {
           header={{'X-Powered-By': 'stepup'}}
           accept='.png'
           multiple
+          drag
         >
+            <Icon icon='upload' size="5x" theme="secondary" />
+            <br/>
+            <p>Drag file over to upload</p>
         </Upload>
     </div>
   )
