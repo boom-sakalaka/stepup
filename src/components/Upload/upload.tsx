@@ -25,6 +25,12 @@ export interface UploadProps {
   onError?: (err:any, file: File) => void;
   onchange?: (file: File) => void;
   onRemove?: (file: UploadFile) => void;
+  header?: {[key:string]: any};
+  name?: string;
+  data?: {[key: string]: any};
+  withCredentials?: boolean;
+  accept?: string,
+  multiple?: boolean,
 }
 
 const Upload: FC<UploadProps> = (props) => {
@@ -37,6 +43,12 @@ const Upload: FC<UploadProps> = (props) => {
     onError,
     onchange,
     onRemove,
+    name,
+    data,
+    header,
+    withCredentials,
+    accept,
+    multiple,
   } = props
   const fileInput = useRef<HTMLInputElement>(null)
   const [fileList, setFileList] = useState<UploadFile[]>(defaultFileList ||[])
@@ -102,13 +114,23 @@ const Upload: FC<UploadProps> = (props) => {
       raw: file
     }
 
-    setFileList([_file,...fileList])
+    // setFileList([_file,...fileList])
+    setFileList(prevList => {
+      return [_file, ...prevList]
+    })
     const formData = new FormData()
-    formData.append(file.name,file)
+    formData.append(name || 'file',file)
+    if(data){
+      Object.keys(data).forEach(key => {
+        formData.append(key,data[key])
+      })
+    }
     axios.post(action,formData, {
       headers: {
+        ...header,
         'Content-Type': 'multipart/form-data'
       },
+      withCredentials: withCredentials,
       onUploadProgress: (e) => {
         let percentage = Math.round((e.loaded * 100)/ e.total) || 0
         if(percentage < 100){
@@ -150,10 +172,16 @@ const Upload: FC<UploadProps> = (props) => {
         className="stepup-file-input" 
         onChange={handleFileChange}
         style={{display: 'none'}}
+        accept={accept}
+        multiple={multiple}
         />
       <UploadList fileList={fileList} onRemove={handleRemove} />
     </div>
   )
+}
+
+Upload.defaultProps = {
+  name: 'file'
 }
 
 export default Upload
