@@ -1,1 +1,1 @@
-#### npm run storybook 查看效果
+#### npm run storybook 查看演示
